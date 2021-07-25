@@ -26,7 +26,7 @@ class ParentTitle(QLabel):
 
 
 class Titles(ParentTitle):
-	def __init__(self, title, pixmap=None, parent=None, color="white"):
+	def __init__(self, title: str, pixmap: object = None, parent: object = None, color: str = "white"):
 		self.default_fontsize = 24
 		super().__init__(self.default_fontsize, color=color)
 		self.text = title + "   "
@@ -40,7 +40,7 @@ class Titles(ParentTitle):
 
 
 class SmallTitles(ParentTitle):
-	def __init__(self, title, parent=None, color="white"):
+	def __init__(self, title: str, parent: object = None, color: str = "white"):
 		self.default_fontsize = 14
 		super().__init__(self.default_fontsize, color=color)
 		self.text = title + "   "

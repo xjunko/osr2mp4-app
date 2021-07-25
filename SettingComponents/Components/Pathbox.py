@@ -4,8 +4,8 @@ from SettingComponents.Components.Textbox import ParentTextbox
 
 
 class PathBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None, datadict=None, func=None):
-		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
+	def __init__(self, header: str = None, key: str = None, jsondata: dict = None, datadict: dict = None, func: callable = None):
+		super().__init__(header=header, key=key, jsondata=jsondata, datadict=datadict)
 
 		self.default_width = 250
 		self.default_height = 10
@@ -16,6 +16,7 @@ class PathBox(ParentTextbox):
 		file_type = jsondata["filetype"]
 		self.file_type = ""
 		self.func = func  # function to call after choosing path (most of the time it will be none anyway except for pp custom)
+		
 		if type(file_type).__name__ == "list":
 			for i in file_type:
 				self.file_type += "*" + i + " "

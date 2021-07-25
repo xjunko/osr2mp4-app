@@ -27,23 +27,28 @@ class PPMenu(QMenuBar):
 		self.resetaction.triggered.connect(self.reset)
 
 	def save(self):
+		logging.error(current_ppsettings)
 		try:
+
 			ppsettings = copy(current_ppsettings)
-			ppsettings["Rgb"] = eval(str(ppsettings["Rgb"]))
-			ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
+			ppsettings["PPCounter"]["Rgb"] = eval(str(ppsettings["PPCounter"]["Rgb"]))
+			ppsettings["Hitresult"]["Rgb"] = eval(str(ppsettings["Hitresult"]["Rgb"]))
+			ppsettings["URCounter"]["Rgb"] = eval(str(ppsettings["URCounter"]["Rgb"]))
+			
 			self.parent.ppsample.ppcounter.loadsettings(ppsettings)
 			self.parent.ppsample.ppcounter.loadimg()
 			self.parent.ppsample.hitresultcounter.loadsettings(ppsettings)
 			self.parent.ppsample.hitresultcounter.loadimg()
 			self.parent.updatepp()
+
 		except Exception as e:
-			print(repr(e))
-			print(ppsettings)
 			logging.error(repr(e))
 			logging.info(ppsettings)
 			return
+
 		for k in ppsettings.keys():
 			current_ppsettings[k] = ppsettings[k]
+
 
 		with open(pppath, 'w+') as f:
 			json.dump(current_ppsettings, f, indent=4)
@@ -51,14 +56,18 @@ class PPMenu(QMenuBar):
 
 	def reset(self):
 		ppsettings = defaultppconfig
+
 		for k in ppsettings.keys():
 			current_ppsettings[k] = ppsettings[k]
+
 		self.parent.ppsample.ppcounter.loadsettings(current_ppsettings)
 		self.parent.ppsample.ppcounter.loadimg()
 		self.parent.ppsample.hitresultcounter.loadsettings(current_ppsettings)
 		self.parent.ppsample.hitresultcounter.loadimg()
+		self.parent.ppsample.ur_counter.loadsettings(current_ppsettings)
 		self.parent.pplayout.updatevalue()
 		self.parent.updatepp()
+		
 		with open(pppath, 'w+') as f:
 			json.dump(current_ppsettings, f, indent=4)
 			f.close()
