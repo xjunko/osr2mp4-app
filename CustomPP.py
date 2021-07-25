@@ -7,6 +7,7 @@ from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QPixmap
 from osr2mp4.ImageProcess.Objects.Scores.PPCounter import PPCounter
 from osr2mp4.ImageProcess.Objects.Scores.HitresultCounter import HitresultCounter
+from osr2mp4.ImageProcess.Objects.Scores.URCounter import URCounter
 from osr2mp4.Utils.Resolution import get_screensize
 from osr2mp4.global_var import Settings
 from PyQt5.QtWidgets import QLabel, QMainWindow, QApplication
@@ -43,12 +44,15 @@ class PPSample:
 
 		self.hitresultcounter = HitresultCounter(settings)
 		self.hitresultcounter.set({100: 17, 50: 70, 0: 13})
+		self.ur_counter = URCounter(settings)
+		self.ur_counter.ur = 420
 		self.settings = settings
 
 	def draw(self):
 		background = self.background.copy()
 		self.ppcounter.add_to_frame(background)
 		self.hitresultcounter.add_to_frame(background)
+		self.ur_counter.add_to_frame(background)
 		background.save(self.outputpath)
 
 
@@ -85,7 +89,9 @@ class PPwindow(QMainWindow):
 		except Exception as e:
 			logging.error(repr(e))
 			return
+
 		pixmap = QPixmap(self.ppsample.outputpath)
+
 		self.label.setPixmap(pixmap)
 
 
