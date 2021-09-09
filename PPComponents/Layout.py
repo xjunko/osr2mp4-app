@@ -23,12 +23,17 @@ class PPLayout(QtWidgets.QScrollArea):
 		self.default_width, self.default_height = parent.default_width, parent.default_height - parent.ppsample.settings.height
 		self.default_x, self.default_y = 10, parent.ppsample.settings.height
 
-		self.widgetlists = {"Big_Textbox": BigTextBox, "Small_Textbox": SmallTextBox,
-							"Titles": Titles, "Small_Titles": SmallTitles,
-							"Slider": Slider, "PathBox": PathBox}
+		self.widgetlists = {
+			"Big_Textbox": BigTextBox, 
+			"Small_Textbox": SmallTextBox,
+			"Titles": Titles, 
+			"Small_Titles": SmallTitles,
+			"Slider": Slider, 
+			"PathBox": PathBox
+		}
 
-		self.layout = QtWidgets.QHBoxLayout(parent)
 		scrollAreaWidgetContents = QtWidgets.QWidget()
+		self.layout = QtWidgets.QHBoxLayout(parent)
 		self.setStyleSheet("background: gray;")
 		self.gridLayout = GridLayout(scrollAreaWidgetContents)
 
@@ -55,17 +60,18 @@ class PPLayout(QtWidgets.QScrollArea):
 		for header in data:
 			self.gridLayout.smart_addWidget(Titles(header), 0)
 			self.gridLayout.smart_addWidget(Separator(), 0)
+			
 			for key in data[header]:
 				column = data[header][key].get("Column", 0)  # default to 0 if column is not specified
 				widgetname = data[header][key]["type"]
 
 				if widgetname == "PathBox":
-					widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key], datadict=ppsettings, func=self.main_window.savebutton.mouseclicked)
+					widget = self.widgetlists[widgetname](header=header, key=key, jsondata=data[header][key], datadict=ppsettings, func=self.main_window.savebutton.mouseclicked)
 				else:
-					widget = self.widgetlists[widgetname](key=key, jsondata=data[header][key], datadict=ppsettings)
+					widget = self.widgetlists[widgetname](header=header, key=key, jsondata=data[header][key], datadict=ppsettings)
 
 				self.gridLayout.smart_addWidget(SmallTitles(key + ":"), column)
-				self.gridLayout.smart_addWidget(widget, column+1)
+				self.gridLayout.smart_addWidget(widget, column + 1)
 			self.gridLayout.smart_addWidget(Titles(" "), 0)
 
 		self.updatevalue()

@@ -10,7 +10,7 @@ from helper.osudatahelper import ensure_rightmap, osrhash, getmaptime
 
 
 class Slider(QSlider):
-	def __init__(self, key=None, jsondata=None, datadict=None):
+	def __init__(self, header: str = None, key: str = None, jsondata: dict = None, datadict: dict = None):
 		super().__init__()
 		self.setOrientation(QtCore.Qt.Horizontal)
 
@@ -18,6 +18,7 @@ class Slider(QSlider):
 		self.img_groove = os.path.join(abspath, "res/Slider_HD.png")
 		self.default_width, self.default_height = 250, 20
 		self.value_ = 0
+		self.header = header
 		self.setStyleSheet("""
 QSlider::groove:horizontal 
 {
@@ -67,6 +68,9 @@ color: white;
 
 		self.mousemove = False
 
+		if self.header:
+			self.current_data = self.current_data[self.header]
+
 		super().valueChanged.connect(self.valueChanged)
 		self.setValue(self.current_data[self.key] * 1000)
 		self.show = str(self.current_data[self.key])
@@ -111,7 +115,7 @@ class StartTimeSlider(Slider):
 
 	objs = []
 
-	def __init__(self, key=None, jsondata=None):
+	def __init__(self, header: str = None, key: str = None, jsondata: dict = None):
 		StartTimeSlider.objs.append(self)
 		jsondata["min"] = 0
 		jsondata["step"] = 1
@@ -121,7 +125,7 @@ class StartTimeSlider(Slider):
 
 		jsondata["max"] = getmaptime(current_config, current_settings)
 
-		super().__init__(key=key, jsondata=jsondata)
+		super().__init__(header=header, key=key, jsondata=jsondata)
 
 	def updatevalue(self):
 		ensure_rightmap(current_config, current_settings)
@@ -144,10 +148,10 @@ class StartTimeSlider(Slider):
 class EndTimeSlider(StartTimeSlider):
 	objs = []
 
-	def __init__(self, key=None, jsondata=None):
+	def __init__(self, header: str = None, key: str = None, jsondata: dict = None):
 		EndTimeSlider.objs.append(self)
 		end_time = current_config["End time"]
-		super().__init__(key=key, jsondata=jsondata)
+		super().__init__(header=header, key=key, jsondata=jsondata)
 		if end_time == -1:
 			val = self.maximum()
 		else:

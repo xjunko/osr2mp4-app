@@ -10,7 +10,7 @@ from abspath import configpath, settingspath
 from helper.osudatahelper import parse_osr, parse_map
 
 
-def save(filename=None):
+def save(filename: str = None):
 	from config_data import current_config, current_settings
 
 	if filename is None:
@@ -33,7 +33,7 @@ def save(filename=None):
 		f.close()
 
 
-def loadname(config):
+def loadname(config: dict):
 	custom = {}
 
 	try:
@@ -66,7 +66,7 @@ def loadname(config):
 	return filename
 
 
-def loadsettings(config, settings, ppsettings):
+def loadsettings(config: dict, settings: dict, ppsettings: dict):
 	outputpath = config["Output path"]
 
 	config["Output name"] = config.get("Output name", "{Player} - {Map} {PlayDate} {Accuracy}.mp4")
@@ -89,6 +89,6 @@ def loadsettings(config, settings, ppsettings):
 	# not sure why this is a thing but oka
 	ppsettings["Rgb"] = eval(str(ppsettings["Rgb"]))
 	ppsettings["Hitresult Rgb"] = eval(str(ppsettings["Hitresult Rgb"]))
-
+  
 	parse_osr(config, settings)
 	parse_map(config, settings)

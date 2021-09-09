@@ -52,6 +52,7 @@ class PPSample:
 
 		self.straingraph = StrainGraph(settings, 0, 1000)
 		self.straingraph.set_strain_graph(os.path.join(abspath, 'res/StrainExample.png'))
+
 		self.settings = settings
 
 	def draw(self):
@@ -98,7 +99,9 @@ class PPwindow(QMainWindow):
 		except Exception as e:
 			logging.error(repr(e))
 			return
+
 		pixmap = QPixmap(self.ppsample.outputpath)
+
 		self.label.setPixmap(pixmap)
 
 

@@ -7,7 +7,7 @@ from abspath import abspath
 
 
 class DoubleSlider(QWidget):
-	def __init__(self, jsondata=None):
+	def __init__(self, jsondata: dict = None):
 		super().__init__()
 
 		self.default_width = 300

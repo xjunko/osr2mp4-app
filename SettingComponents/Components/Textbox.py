@@ -11,7 +11,7 @@ from config_data import current_config, current_settings
 
 
 class ParentTextbox(QLineEdit):
-	def __init__(self, key=None, jsondata=None, datadict=None):
+	def __init__(self, header: str = None, key: str = None, jsondata: dict = None, datadict: dict = None):
 		super().__init__()
 		self.default_width = 1
 		self.default_height = 1
@@ -24,18 +24,19 @@ class ParentTextbox(QLineEdit):
 		}
 		""")
 
+		self.header = header
 		self.key = key
 
 		if datadict is not None:
-			self.current_data = datadict
+			self._current_data = datadict
 		else:
 			if key in current_config:
-				self.current_data = current_config
+				self._current_data = current_config
 			else:
-				self.current_data = current_settings
+				self._current_data = current_settings
 
-		if self.key not in self.current_data:
-			self.current_data[self.key] = ""
+		if self.key not in self._current_data:
+			self._current_data[self.key] = ""
 
 		super().textChanged.connect(self.textChanged)
 		self.raise_()
@@ -43,6 +44,13 @@ class ParentTextbox(QLineEdit):
 		tip = jsondata.get("desc", "")
 		self.setToolTip(tip)
 		self.installEventFilter(self)
+
+	@property
+	def current_data(self):
+		if self.header:
+			return self._current_data[self.header]
+		else:
+			return self._current_data
 
 	def updatevalue(self):
 		self.setText(str(self.current_data[self.key]))
@@ -59,6 +67,7 @@ class ParentTextbox(QLineEdit):
 				p_str = float(p_str)
 			except ValueError:
 				pass
+
 		self.current_data[self.key] = p_str
 
 	def tooltip_link_clicked(self, url):
@@ -74,8 +83,8 @@ class ParentTextbox(QLineEdit):
 
 
 class BigTextBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None, datadict=None):
-		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
+	def __init__(self, *args: list, **kwargs: dict):
+		super().__init__(*args, **kwargs)
 
 		self.default_width = 250
 		self.default_height = 20
@@ -85,8 +94,8 @@ class BigTextBox(ParentTextbox):
 
 
 class SmallTextBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None, datadict=None):
-		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
+	def __init__(self, *args: list, **kwargs: dict):
+		super().__init__(*args, **kwargs)
 
 		self.default_width = 50
 		self.default_height = 20
@@ -96,8 +105,8 @@ class SmallTextBox(ParentTextbox):
 
 
 class AverageTextBox(ParentTextbox):
-	def __init__(self, key, jsondata=None, datadict=None):
-		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
+	def __init__(self, *args: list, **kwargs: dict):
+		super().__init__(*args, **kwargs)
 
 		self.default_width = 100
 		self.default_height = 20
@@ -107,8 +116,8 @@ class AverageTextBox(ParentTextbox):
 
 
 class VeryBigTextBox(ParentTextbox):
-	def __init__(self, key=None, jsondata=None, datadict=None):
-		super().__init__(key=key, jsondata=jsondata, datadict=datadict)
+	def __init__(self, *args: list, **kwargs: dict):
+		super().__init__(*args, **kwargs)
 
 		self.default_width = 350
 		self.default_height = 20

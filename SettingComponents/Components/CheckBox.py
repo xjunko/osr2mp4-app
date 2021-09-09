@@ -10,9 +10,10 @@ from config_data import current_config, current_settings
 
 
 class CheckBox(QCheckBox):
-	def __init__(self, key=None, jsondata=None, datadict=None):
+	def __init__(self, header: str = None, key: str = None, jsondata: dict = None, datadict: dict = None):
 		super().__init__()
 
+		self.header = header
 		self.img_uncheck = os.path.join(abspath, "res/Uncheck_HD.png")
 		self.img_check = os.path.join(abspath, "res/Check_HD.png")
 
@@ -41,6 +42,9 @@ class CheckBox(QCheckBox):
 
 		if self.key not in self.current_data:
 			self.current_data[self.key] = False
+
+		if self.header:
+			self.current_data = self.current_data[self.header]
 
 		if bool(self.current_data[self.key]):
 			self.setCheckState(QtCore.Qt.Checked)

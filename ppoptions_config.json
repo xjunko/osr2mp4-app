@@ -1,13 +1,14 @@
 {
-  "PP counter": {
+  "PPCounter": {
     "x": {"type": "Small_Textbox"},
     "y": {"type": "Small_Textbox"},
+    "Origin": {"type": "Small_Textbox"},
     "Size": {"type": "Small_Textbox"},
     "Rgb": {"type": "Big_Textbox"},
     "Origin": {"type": "Small_Textbox"},
     "Alpha": {"type": "Small_Textbox"},
     "Font": {"type": "Small_Textbox"},
-    "Background": {"type": "PathBox", "filetype": [".png", ".jpg", ".jpeg"]}
+    "Background": {"type": "PathBox", "filetype": [".png", ".jpg", ".jpeg"]}    
   },
   "Hitresult counter": {
     "Hitresult x": {"type": "Small_Textbox"},
